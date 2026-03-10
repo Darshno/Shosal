@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shosal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="app.png">
+</head>
+<body>
+  <div id="login-screen">
+    <div class="login-box">
+      <img src="app.png" alt="App Icon" class="app-icon">
+      <h1>Welcome to Shosal</h1>
+      <p class="subtitle">Connect with people instantly</p>
+      
+      <div class="profile-upload">
+        <div class="profile-preview" id="profile-preview">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+          <img id="profile-img-preview" style="display: none;">
+        </div>
+        <label for="profile-upload" class="upload-label">Upload Profile Picture</label>
+        <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+      </div>
+      
+      <input type="text" id="username-input" placeholder="Enter your username" maxlength="20">
+      <button id="login-btn">Join Chat</button>
+    </div>
+  </div>
+
+  <div id="chat-screen" style="display: none;">
+    <div class="chat-container">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-header-left">
+            <img src="app.png" alt="App Icon" class="sidebar-icon">
+            <h3>Chats</h3>
+          </div>
+        </div>
+        <ul id="users-list"></ul>
+      </div>
+      <div class="chat-main">
+        <div class="chat-header">
+          <div class="header-left">
+            <img src="app.png" alt="App Icon" class="header-icon">
+            <h2>Shosal</h2>
+          </div>
+          <div class="current-user-info">
+            <div id="header-profile-img" class="header-profile"></div>
+            <span id="current-user"></span>
+          </div>
+        </div>
+        <div id="messages"></div>
+        <div class="typing-indicator" id="typing-indicator">
+          <span id="typing-username"></span> is typing<span class="typing-dots"><span></span><span></span><span></span></span>
+        </div>
+        <div class="message-input">
+          <div class="reply-preview" id="reply-preview">
+            <div class="reply-preview-content">
+              <div class="reply-preview-username" id="reply-preview-username"></div>
+              <div class="reply-preview-text" id="reply-preview-text"></div>
+            </div>
+            <button class="cancel-reply" id="cancel-reply">&times;</button>
+          </div>
+          <div class="message-input-wrapper">
+            <button id="voice-btn" class="voice-btn" title="Record voice message">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+              </svg>
+            </button>
+            <button id="photo-btn" class="photo-btn" title="Send photo">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+              </svg>
+            </button>
+            <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button id="send-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="voice-recording-modal" class="voice-modal" style="display: none;">
+    <div class="voice-modal-content">
+      <div class="recording-animation">
+        <div class="pulse-ring"></div>
+        <div class="recording-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="recording-time" id="recording-time">0:00</div>
+      <div class="recording-text">Recording voice message...</div>
+      <div class="voice-modal-actions">
+        <button id="cancel-voice" class="voice-cancel-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+        <button id="send-voice" class="voice-send-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
